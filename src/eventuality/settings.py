@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -83,6 +85,11 @@ DATABASES = {
     }
 }
 
+# Initialize Sentry Django SDK
+sentry_sdk.init(
+    dsn="https://316724a4d12d4a749e79f42536a3b582@sentry.io/1553533",
+    integrations=[DjangoIntegration()]
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
