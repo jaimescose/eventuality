@@ -42,6 +42,10 @@ for _, host in hosts:
 
 INSTALLED_APPS = config.get('apps', 'INSTALLED_APPS').split()
 
+GRAPHENE = {
+    'SCHEMA': 'eventuality.schema.schema'
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

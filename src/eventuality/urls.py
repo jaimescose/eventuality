@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from graphene_django.views import GraphQLView
+from eventuality.schema import schema
 from even import views
 
 urlpatterns = [
     path('even/', include('even.urls')),
     path('admin/', admin.site.urls),
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
 ]
