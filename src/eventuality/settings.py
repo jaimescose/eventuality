@@ -14,32 +14,30 @@ import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+# Initialize reading of settings.ini
+from configparser import RawConfigParser
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+config = RawConfigParser()
+config.read(os.path.join(BASE_DIR, 'settings.ini'))
+# config.read('../../settings.ini')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '088=92y2_e*41o4#*y3*g*klao((yb4&l8c8qlfq2!!exloxve'
+SECRET_KEY = config.get('secrets','SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.getboolean('debug', 'DEBUG')
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
-
+ALLOWED_HOSTS =  []
+hosts = config.items('allowed_hosts')
+for _, host in hosts:
+    ALLOWED_HOSTS.append(host)
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-]
+INSTALLED_APPS = config.get('apps', 'INSTALLED_APPS').split()
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,17 +75,18 @@ WSGI_APPLICATION = 'eventuality.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE': config.get('database', 'DEFAULT_DATABASE_ENGINE'),
+        'NAME': config.get('database', 'DEFAULT_DATABASE_NAME'),
+        'USER': config.get('database', 'DEFAULT_DATABASE_USER'),
+        'PASSWORD': config.get('database', 'DEFAULT_DATABASE_PASSWORD'),
+        'HOST': config.get('database', 'DEFAULT_DATABASE_HOST'),
+        'PORT': config.get('database', 'DEFAULT_DATABASE_PORT'),
     }
 }
 
 # Initialize Sentry Django SDK
 sentry_sdk.init(
-    dsn="https://316724a4d12d4a749e79f42536a3b582@sentry.io/1553533",
+    dsn=config.get('sentry', 'DSN'),
     integrations=[DjangoIntegration()]
 )
 
