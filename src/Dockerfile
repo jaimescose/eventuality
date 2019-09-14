@@ -1,8 +1,10 @@
-FROM python:3.7-alpine
+FROM python:3.7
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update
+
+COPY docker-entrypoint.sh /
 
 RUN mkdir /src
 COPY . /src
@@ -10,3 +12,6 @@ COPY . /src
 WORKDIR /src
 
 RUN pip install -r requirements.txt
+
+# RUN adduser even
+# USER even
