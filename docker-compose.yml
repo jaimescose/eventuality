@@ -1,17 +1,26 @@
 version: '3'
 services:
   db:
-    image: postgres
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE=${DATABASE}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+    volumes:
+      - database_data:/var/lib/postgresql/data
   web:
     build:
-      context: .
+      context: ./src
       dockerfile: Dockerfile
-    #command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./src:/src
       - ./src/static:/static
     ports:
       - "8000:8000"
+    depends_on:
+      - db
     command: sh -c "python manage.py collectstatic --no-input && gunicorn eventuality.wsgi -b 0.0.0.0:8000"
   nginx:
     build:
@@ -21,3 +30,7 @@ services:
       - ./src/static:/static
     ports:
       - "8080:80"
+    depends_on:
+      - web
+volumes:
+  database_data:
