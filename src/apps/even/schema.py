@@ -1,6 +1,6 @@
 import graphene
 from graphene_django.types import DjangoObjectType, ObjectType
-from even.models import Promoter, Event
+from apps.even.models import Promoter, Event
 
 # Create a GraphQL type for the promoter model
 class PromoterType(DjangoObjectType):

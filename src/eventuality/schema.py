@@ -1,5 +1,5 @@
 import graphene
-import even.schema
+import apps.even.schema as even
 
 class Query(even.schema.Query, graphene.ObjectType):
     # This class will inherit from multiple Queries
