@@ -1,11 +1,12 @@
 import graphene
 from graphene_django.types import DjangoObjectType, ObjectType
-from apps.even.models import Promoter, Event
+from apps.even.models.Event import Event
+from apps.even.models.EventPromoter import EventPromoter
 
 # Create a GraphQL type for the promoter model
 class PromoterType(DjangoObjectType):
     class Meta:
-        model = Promoter
+        model = EventPromoter
 
 # Create a GraphQL type for the Event model
 class EventType(DjangoObjectType):
