@@ -7,10 +7,6 @@ do
     sleep 1
 done
 
-python manage.py makemigrations
-
-python manage.py migrate
-
 python manage.py collectstatic --no-input
 
 gunicorn eventuality.wsgi -b 0.0.0.0:8000
