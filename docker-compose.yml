@@ -5,9 +5,9 @@ services:
       context: ./database
       dockerfile: Dockerfile
     environment:
-      - DATABASE=${DATABASE}
-      - USER_DB=${USER_DB}
-      - PASSWORD=${PASSWORD}
+      - DATABASE=${DB_NAME}
+      - USER_DB=${DB_USER}
+      - PASSWORD=${DB_PASSWORD}
     volumes:
       - database_data:/var/lib/postgresql/data
   web:
@@ -19,7 +19,7 @@ services:
       - ./src/static:/static
     ports:
       - "8000:8000"
-    command: ../docker-entrypoint.sh
+    command: /src/docker-entrypoint.sh
     depends_on:
       - db
   nginx:

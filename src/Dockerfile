@@ -4,8 +4,6 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update
 
-COPY docker-entrypoint.sh /
-
 RUN mkdir /src
 COPY . /src
 
