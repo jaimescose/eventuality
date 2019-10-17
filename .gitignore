@@ -106,3 +106,6 @@ venv.bak/
 
 # Docker stuff
 .env
+
+# Data folder
+src/data/*
