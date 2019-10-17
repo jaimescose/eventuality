@@ -1,6 +1,14 @@
+import os
 import sys
 import pandas
+import django
 from sentry_sdk import capture_exception
+
+BASE_PATH = os.path.dirname('/src/')
+sys.path.append(BASE_PATH)
+
+os.environ["DJANGO_SETTINGS_MODULE"] = 'eventuality.settings'
+django.setup()
 
 from apps.even.models.EventCategory import EventCategory
 
