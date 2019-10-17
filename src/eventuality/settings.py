@@ -91,7 +91,7 @@ DATABASES = {
 
 # Initialize Sentry Django SDK
 sentry_sdk.init(
-    dsn=config.get('sentry', 'DSN'),
+    #dsn=config.get('sentry', 'DSN'),
     integrations=[DjangoIntegration()]
 )
 
