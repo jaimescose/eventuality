@@ -2,6 +2,8 @@ import os
 import sys
 import pandas
 import django
+import numpy as np
+
 from sentry_sdk import capture_exception
 
 BASE_PATH = os.path.dirname('/src/')
@@ -15,6 +17,8 @@ from apps.even.models.EventCategory import EventCategory
 categories_file = sys.argv[1]
 
 categories_df = pandas.read_excel(categories_file)
+
+categories_df.fillna('', inplace=True)
 
 for index, row in categories_df.iterrows():
     # Set category description
@@ -31,15 +35,16 @@ for index, row in categories_df.iterrows():
     }
 
     # Get parent category name
-    parent_category_name = name = rows['parent']
+    parent_category_name = name = row['parent']
 
-    # Get parent category
-    try:
-        parent_category = EventCategory.objects.filter(parent_category=parent_category_name)
-    except EventCategory.DoesNotExist:
-        capture_exception('Parent category {} for {} subcategory has not been created'.format(
-            parent_category_name, new_category.name))
-    else:
-        new_category['parent_category'] = parent_category
+    if parent_category_name != '':
+        # Get parent category
+        try:
+            parent_category = EventCategory.objects.get(name=parent_category_name)
+        except EventCategory.DoesNotExist:
+            capture_exception('Parent category {} for {} subcategory has not been created'.format(
+                parent_category_name, new_category.name))
+        else:
+            new_category['parent_category'] = parent_category
 
     EventCategory.objects.create(**new_category)
