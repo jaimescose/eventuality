@@ -12,7 +12,7 @@ sys.path.append(BASE_PATH)
 os.environ["DJANGO_SETTINGS_MODULE"] = 'eventuality.settings'
 django.setup()
 
-from apps.even.models.EventCategory import EventCategory
+from apps.even.models.eventCategory import EventCategory
 
 categories_file = sys.argv[1]
 
@@ -30,7 +30,7 @@ for index, row in categories_df.iterrows():
     additional_text = row['additional text']
 
     if additional_text != '':
-        description = '\n'.join([description, additional_text])
+        description = '. '.join([description, additional_text])
 
     # Get parent category name
     parent_category_name = row['parent']

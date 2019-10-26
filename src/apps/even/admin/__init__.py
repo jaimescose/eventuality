@@ -1,2 +1,2 @@
-from . import EventAdmin
-from . import EventCategoryAdmin
+from .eventAdmin import EventAdmin
+from .eventCategoryAdmin import EventCategoryAdmin
