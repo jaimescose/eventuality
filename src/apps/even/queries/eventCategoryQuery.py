@@ -14,11 +14,9 @@ class Query(ObjectType):
         id = kwargs.get('id')
 
         try:
-            event_category =  EventCategory.objects.get(id=id)
+            return EventCategory.objects.get(id=id)
         except EventCategory.DoesNotExist as e:
-            event_category = None
-        
-        return event_category
+            return None
 
     def resolve_event_categories(self, info, **kwargs):
         return EventCategory.objects.all()
