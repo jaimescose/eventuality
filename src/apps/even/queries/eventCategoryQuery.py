@@ -10,7 +10,7 @@ class Query(ObjectType):
     event_category = graphene.Field(EventCategoryType, id=graphene.Int())
     event_categories = graphene.List(EventCategoryType)
 
-    def resolve_event_category(self, info, **kwargs):
+    def resolve_event_category(parent, info, **kwargs):
         id = kwargs.get('id')
 
         try:
@@ -18,7 +18,7 @@ class Query(ObjectType):
         except EventCategory.DoesNotExist as e:
             return None
 
-    def resolve_event_categories(self, info, **kwargs):
+    def resolve_event_categories(parent, info, **kwargs):
         return EventCategory.objects.all()
 
 schema = graphene.Schema(query=Query)

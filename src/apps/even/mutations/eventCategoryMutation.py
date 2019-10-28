@@ -12,7 +12,6 @@ class CreateEventCategory(graphene.Mutation):
     ok = graphene.Boolean()
     event_category = graphene.Field(EventCategoryType)
 
-    @staticmethod
     def mutate(root, info, input=None):
         # initialize return values
         ok = False
