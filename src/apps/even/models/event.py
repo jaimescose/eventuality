@@ -12,6 +12,7 @@ class Event(models.Model):
     from_datetime = models.DateTimeField()
     to_datetime = models.DateTimeField(blank=True, null=True)
     main_category = models.ForeignKey('even.EventCategory', default=get_default_category, on_delete=models.SET_DEFAULT)
+    subcategories = models.ManyToManyField('even.EventCategory', related_name='subcategories')
 
     def __str__(self):
         return self.name

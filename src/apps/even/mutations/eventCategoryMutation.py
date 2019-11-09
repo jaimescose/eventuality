@@ -23,15 +23,25 @@ class CreateEventCategory(graphene.Mutation):
 
             return CreateEventCategory(ok=ok, event_category=event_category)
         except EventCategory.DoesNotExist as e:
+            parent_category = None
+
+            if input.parent_category:
+                parent_category_id = input.parent_category.id
+                try:
+                    parent_category = EventCategory.objects.get(id=parent_category_id)
+                except EventCategory.DoesNotExist as e:
+                    return CreateEventCategory(ok=ok, event_category=event_category)
+
+
             kwargs = {
                 'name': input.name,
                 'description': input.description,
-                'parent_category': input.parent_category
+                'parent_category': parent_category
             }
 
             event_category = EventCategory.objects.create(**kwargs)
 
-            return CreateEventCategory(ok=ok, event_category=event_category)
+            return CreateEventCategory(ok=True, event_category=event_category)
 
 class Mutation(graphene.ObjectType):
     create_event_category = CreateEventCategory.Field()
