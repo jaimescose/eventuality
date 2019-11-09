@@ -14,3 +14,7 @@ class EventCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_default_category(cls):
+        return cls.objects.get(default=True)
